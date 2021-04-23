@@ -1,8 +1,56 @@
 ﻿namespace NumbersInWords
 {
+    using System;
+
     public class NumbersInWords
     {
         public string Convert(int number)
+        {
+
+            string numberWord = "";
+
+            int singleNumber = Math.Abs(number / 1 % 10);
+
+            int tenthDigit = Math.Abs(number / 10 % 10);
+
+            
+
+            if (tenthDigit > 1)
+            {
+                numberWord = this.GetTenthNumberWord(tenthDigit);
+            }
+            else if(tenthDigit > 0)
+            {
+                numberWord = this.GetNumberUpToTwentyWord(10 + singleNumber);
+                return numberWord;
+            }
+
+            if (singleNumber > 0)
+            {
+                numberWord += this.GetNumberUpToTwentyWord(singleNumber);
+            }
+
+            return numberWord;
+
+        }
+
+        private string GetTenthNumberWord(int tenthDigit)
+        {
+            switch (tenthDigit)
+            {
+                case 2: return "Twenty";
+                case 3: return "Thirty";
+                case 4: return "Forty";
+                case 5: return "Fifty";
+                case 6: return "Sixty";
+                case 7: return "Seventy";
+                case 8: return "Eighty";
+                case 9: return "Ninety";
+                default: throw new Exception("Invalid Number");
+            }
+        }
+
+        private string GetNumberUpToTwentyWord(int number)
         {
             switch (number)
             {
@@ -25,7 +73,7 @@
                 case 17: return "Seventeen";
                 case 18: return "Eighteen";
                 case 19: return "Nineteen";
-                default: return "Zero";
+                default: throw new Exception("Invalid Number");
             }
         }
     }

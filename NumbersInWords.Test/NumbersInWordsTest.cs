@@ -6,7 +6,6 @@ namespace NumbersInWords.Test
     public class NumbersInWordsTest
     {
         [Theory]
-        [InlineData(0,"Zero")]
         [InlineData(1,"One")]
         [InlineData(2,"Two")]
         [InlineData(3,"Three")]
@@ -26,6 +25,17 @@ namespace NumbersInWords.Test
         [InlineData(17,"Seventeen")]
         [InlineData(18,"Eighteen")]
         [InlineData(19,"Nineteen")]
+        [InlineData(20,"Twenty")]
+        [InlineData(21,"TwentyOne")]
+        [InlineData(29, "TwentyNine")]
+        [InlineData(30, "Thirty")]
+        [InlineData(31, "ThirtyOne")]
+        [InlineData(40, "Forty")]
+        [InlineData(42, "FortyTwo")]
+        [InlineData(50, "Fifty")]
+        [InlineData(53, "FiftyThree")]
+        [InlineData(64, "SixtyFour")]
+        [InlineData(99, "NinetyNine")]
         public void ShouldReturnCorrectString(int input, string expected)
         {
             // Arrange
@@ -36,6 +46,7 @@ namespace NumbersInWords.Test
 
             // Assert
             result.Should().Be(expected);
+
         }
     }
 }
