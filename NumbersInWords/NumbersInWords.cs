@@ -15,9 +15,17 @@
 
             int hundredDigit = Math.Abs(number / 100 % 10);
 
+            int thousandDigit = Math.Abs(number / 1000 % 10);
+
+            if (thousandDigit > 0)
+            {
+                numberWord = this.GetNumberUpToTwentyWord(thousandDigit);
+                numberWord += "Thousand";
+            }
+
             if (hundredDigit > 0)
             {
-                numberWord = this.GetNumberUpToTwentyWord(hundredDigit);
+                numberWord += this.GetNumberUpToTwentyWord(hundredDigit);
                 numberWord += "Hundred";
             }
 

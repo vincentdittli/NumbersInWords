@@ -40,6 +40,9 @@ namespace NumbersInWords.Test
         [InlineData(120, "OneHundredTwenty")]
         [InlineData(745, "SevenHundredFortyFive")]
         [InlineData(999, "NineHundredNinetyNine")]
+        [InlineData(1000, "OneThousand")]
+        [InlineData(1099, "OneThousandNinetyNine")]
+        [InlineData(9999, "NineThousandNineHundredNinetyNine")]
         public void ShouldReturnCorrectString(int input, string expected)
         {
             // Arrange
