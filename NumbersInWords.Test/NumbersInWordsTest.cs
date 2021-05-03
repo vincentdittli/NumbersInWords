@@ -36,6 +36,10 @@ namespace NumbersInWords.Test
         [InlineData(53, "FiftyThree")]
         [InlineData(64, "SixtyFour")]
         [InlineData(99, "NinetyNine")]
+        [InlineData(100, "OneHundred")]
+        [InlineData(120, "OneHundredTwenty")]
+        [InlineData(745, "SevenHundredFortyFive")]
+        [InlineData(999, "NineHundredNinetyNine")]
         public void ShouldReturnCorrectString(int input, string expected)
         {
             // Arrange

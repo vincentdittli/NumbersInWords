@@ -13,15 +13,21 @@
 
             int tenthDigit = Math.Abs(number / 10 % 10);
 
-            
+            int hundredDigit = Math.Abs(number / 100 % 10);
+
+            if (hundredDigit > 0)
+            {
+                numberWord = this.GetNumberUpToTwentyWord(hundredDigit);
+                numberWord += "Hundred";
+            }
 
             if (tenthDigit > 1)
             {
-                numberWord = this.GetTenthNumberWord(tenthDigit);
+                numberWord += this.GetTenthNumberWord(tenthDigit);
             }
             else if(tenthDigit > 0)
             {
-                numberWord = this.GetNumberUpToTwentyWord(10 + singleNumber);
+                numberWord += this.GetNumberUpToTwentyWord(10 + singleNumber);
                 return numberWord;
             }
 
