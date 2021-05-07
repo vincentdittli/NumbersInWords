@@ -1,6 +1,8 @@
 ﻿namespace NumbersInWords
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class NumbersInWords
     {
@@ -9,43 +11,55 @@
 
             string numberWord = "";
 
-            int singleNumber = Math.Abs(number / 1 % 10);
-
-            int tenthDigit = Math.Abs(number / 10 % 10);
-
-            int hundredDigit = Math.Abs(number / 100 % 10);
-
-            int thousandDigit = Math.Abs(number / 1000 % 10);
-
-            if (thousandDigit > 0)
+            List<int> numbers = new List<int>();
+            int exponent = 1;
+            for (int i = 0; i < number.ToString().Length; i++)
             {
-                numberWord = this.GetNumberUpToTwentyWord(thousandDigit);
+                numbers.Add(number / exponent % 10);
+                exponent *= 10;
+            }
+
+            if (numbers.Count < 4)
+            {
+                return this.GetUpToThousandWord(numbers);
+            }
+
+            if (numbers.Count < 7)
+            {
+                numberWord = this.GetUpToThousandWord(numbers.Skip(3).ToList());
                 numberWord += "Thousand";
-            }
-
-            if (hundredDigit > 0)
-            {
-                numberWord += this.GetNumberUpToTwentyWord(hundredDigit);
-                numberWord += "Hundred";
-            }
-
-            if (tenthDigit > 1)
-            {
-                numberWord += this.GetTenthNumberWord(tenthDigit);
-            }
-            else if(tenthDigit > 0)
-            {
-                numberWord += this.GetNumberUpToTwentyWord(10 + singleNumber);
-                return numberWord;
-            }
-
-            if (singleNumber > 0)
-            {
-                numberWord += this.GetNumberUpToTwentyWord(singleNumber);
+                numberWord += this.GetUpToThousandWord(numbers);
             }
 
             return numberWord;
+        }
 
+        private string GetUpToThousandWord(IReadOnlyList<int> numbers)
+        {
+            string numberWord = "";
+
+            if (numbers.Count > 2 && numbers[2] > 0)
+            {
+                numberWord += this.GetNumberUpToTwentyWord(numbers[2]);
+                numberWord += "Hundred";
+            }
+
+            if (numbers.Count > 1 && numbers[1] > 1)
+            {
+                numberWord += this.GetTenthNumberWord(numbers[1]);
+            }
+            else if (numbers.Count > 1 && numbers[1] > 0)
+            {
+                numberWord += this.GetNumberUpToTwentyWord(10 + numbers[0]);
+                return numberWord;
+            }
+
+            if (numbers.Count > 0 && numbers[0] > 0)
+            {
+                numberWord += this.GetNumberUpToTwentyWord(numbers[0]);
+            }
+
+            return numberWord;
         }
 
         private string GetTenthNumberWord(int tenthDigit)
@@ -87,7 +101,7 @@
                 case 17: return "Seventeen";
                 case 18: return "Eighteen";
                 case 19: return "Nineteen";
-                default: throw new Exception("Invalid Number");
+                default: return "";
             }
         }
     }
