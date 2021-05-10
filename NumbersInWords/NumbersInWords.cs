@@ -6,6 +6,41 @@
 
     public class NumbersInWords
     {
+        private readonly Dictionary<int,string> tensNumberWords = new Dictionary<int, string>()
+        {
+            {2,"Twenty"},
+            {3,"Thirty"},
+            {4,"Forty"},
+            {5,"Fifty"},
+            {6,"Sixty"},
+            {7,"Seventy"},
+            {8,"Eighty"},
+            {9,"Ninety"}
+        };
+
+        private readonly Dictionary<int, string> upToTwentyNumberWords = new Dictionary<int, string>()
+        {
+            {1,"One"},
+            {2,"Two"},
+            {3,"Three"},
+            {4,"Four"},
+            {5,"Five"},
+            {6,"Six"},
+            {7,"Seven"},
+            {8,"Eight"},
+            {9,"Nine"},
+            {10,"Ten"},
+            {11,"Eleven"},
+            {12,"Twelve"},
+            {13,"Thirteen"},
+            {14,"Fourteen"},
+            {15,"Fifteen"},
+            {16,"Sixteen"},
+            {17,"Seventeen"},
+            {18,"Eighteen"},
+            {19,"Nineteen"},
+        };
+
         public string Convert(int number)
         {
 
@@ -13,6 +48,7 @@
 
             List<int> numbers = new List<int>();
             int exponent = 1;
+
             for (int i = 0; i < number.ToString().Length; i++)
             {
                 numbers.Add(number / exponent % 10);
@@ -21,91 +57,47 @@
 
             if (numbers.Count > 6)
             {
-                numberWord += this.GetUpToThousandWord(numbers.Skip(6).ToList());
+                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(6).ToList());
                 numberWord += "Million";
             }
 
             if (numbers.Count > 3)
             {
-                numberWord += this.GetUpToThousandWord(numbers.Skip(3).ToList());
+                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(3).ToList());
                 numberWord += "Thousand";
             }
 
-            numberWord += this.GetUpToThousandWord(numbers);
+            numberWord += this.StringifyNumbersUpToThousand(numbers);
             
             return numberWord;
         }
 
-       
-        private string GetUpToThousandWord(IReadOnlyList<int> numbers)
+        private string StringifyNumbersUpToThousand(IReadOnlyList<int> numbers)
         {
             string numberWord = "";
 
             if (numbers.Count > 2 && numbers[2] > 0)
             {
-                numberWord += this.GetNumberUpToTwentyWord(numbers[2]);
+                numberWord += this.upToTwentyNumberWords[numbers[2]];
                 numberWord += "Hundred";
             }
 
             if (numbers.Count > 1 && numbers[1] > 1)
             {
-                numberWord += this.GetTenthNumberWord(numbers[1]);
+                numberWord += this.tensNumberWords[numbers[1]];
             }
             else if (numbers.Count > 1 && numbers[1] > 0)
             {
-                numberWord += this.GetNumberUpToTwentyWord(10 + numbers[0]);
+                numberWord += this.upToTwentyNumberWords[10 + numbers[0]];
                 return numberWord;
             }
 
             if (numbers.Count > 0 && numbers[0] > 0)
             {
-                numberWord += this.GetNumberUpToTwentyWord(numbers[0]);
+                numberWord += this.upToTwentyNumberWords[numbers[0]];
             }
 
             return numberWord;
-        }
-
-        private string GetTenthNumberWord(int tenthDigit)
-        {
-            switch (tenthDigit)
-            {
-                case 2: return "Twenty";
-                case 3: return "Thirty";
-                case 4: return "Forty";
-                case 5: return "Fifty";
-                case 6: return "Sixty";
-                case 7: return "Seventy";
-                case 8: return "Eighty";
-                case 9: return "Ninety";
-                default: throw new Exception("Invalid Number");
-            }
-        }
-
-        private string GetNumberUpToTwentyWord(int number)
-        {
-            switch (number)
-            {
-                case 1: return "One";
-                case 2: return "Two";
-                case 3: return "Three";
-                case 4: return "Four";
-                case 5: return "Five";
-                case 6: return "Six";
-                case 7: return "Seven";
-                case 8: return "Eight";
-                case 9: return "Nine";
-                case 10: return "Ten";
-                case 11: return "Eleven";
-                case 12: return "Twelve";
-                case 13: return "Thirteen";
-                case 14: return "Fourteen";
-                case 15: return "Fifteen";
-                case 16: return "Sixteen";
-                case 17: return "Seventeen";
-                case 18: return "Eighteen";
-                case 19: return "Nineteen";
-                default: return "";
-            }
         }
     }
 }

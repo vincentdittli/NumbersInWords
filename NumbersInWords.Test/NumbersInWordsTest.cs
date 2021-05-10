@@ -64,18 +64,6 @@ namespace NumbersInWords.Test
 
         }
 
-        [Fact]
-        public void test()
-        {
-            // Arrange
-            NumbersInWords testee = new NumbersInWords();
-
-            // Act
-            string result = testee.Convert(1214565);
-
-            // Assert
-            result.Should().Be("OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive");
-        }
         
     }
 }
