@@ -1,6 +1,5 @@
 namespace NumbersInWords.Test
 {
-    using System.Collections.Generic;
     using FluentAssertions;
     using Xunit;
 
@@ -50,6 +49,8 @@ namespace NumbersInWords.Test
         [InlineData(20000, "TwentyThousand")]
         [InlineData(100000, "OneHundredThousand")]
         [InlineData(214565, "TwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(1214565, "OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(231214565, "TwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         public void ShouldReturnCorrectString(int input, string expected)
         {
             // Arrange
@@ -61,6 +62,19 @@ namespace NumbersInWords.Test
             // Assert
             result.Should().Be(expected);
 
+        }
+
+        [Fact]
+        public void test()
+        {
+            // Arrange
+            NumbersInWords testee = new NumbersInWords();
+
+            // Act
+            string result = testee.Convert(1214565);
+
+            // Assert
+            result.Should().Be("OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive");
         }
         
     }

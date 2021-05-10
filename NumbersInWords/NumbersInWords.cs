@@ -19,21 +19,24 @@
                 exponent *= 10;
             }
 
-            if (numbers.Count < 4)
+            if (numbers.Count > 6)
             {
-                return this.GetUpToThousandWord(numbers);
+                numberWord += this.GetUpToThousandWord(numbers.Skip(6).ToList());
+                numberWord += "Million";
             }
 
-            if (numbers.Count < 7)
+            if (numbers.Count > 3)
             {
-                numberWord = this.GetUpToThousandWord(numbers.Skip(3).ToList());
+                numberWord += this.GetUpToThousandWord(numbers.Skip(3).ToList());
                 numberWord += "Thousand";
-                numberWord += this.GetUpToThousandWord(numbers);
             }
 
+            numberWord += this.GetUpToThousandWord(numbers);
+            
             return numberWord;
         }
 
+       
         private string GetUpToThousandWord(IReadOnlyList<int> numbers)
         {
             string numberWord = "";
