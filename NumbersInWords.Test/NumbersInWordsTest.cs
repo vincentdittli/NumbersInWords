@@ -1,6 +1,5 @@
 namespace NumbersInWords.Test
 {
-    using System;
     using FluentAssertions;
     using Xunit;
 
@@ -63,19 +62,6 @@ namespace NumbersInWords.Test
 
             // Assert
             result.Should().Be(expected);
-
-        }
-        [Fact]
-        public void Test()
-        {
-            // Arrange
-            NumbersInWords testee = new NumbersInWords();
-
-            // Act
-            string result = testee.Convert(964231214565);
-
-            // Assert
-            result.Should().Be("NineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive");
 
         }
     }

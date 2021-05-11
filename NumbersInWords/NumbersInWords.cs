@@ -3,9 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     public class NumbersInWords
     {
+        private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
+
         private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>()
         {
             {2, "Twenty"},
@@ -51,21 +54,19 @@
 
         public string Convert(long number)
         {
-            string numberWord = "";
-
             List<long> numbers = SplitNumberInExponent(number);
 
             foreach (KeyValuePair<int, string> powerOfThreeNumberWord in this.powerOfThreeNumberWords.Reverse())
             {
                 if (numbers.Count <= powerOfThreeNumberWord.Key) { continue; }
 
-                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList());
-                numberWord += powerOfThreeNumberWord.Value;
+                this.StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList());
+                this.numberWordStringBuilder.Append(powerOfThreeNumberWord.Value);
             }
 
-            numberWord += this.StringifyNumbersUpToThousand(numbers);
+            this.StringifyNumbersUpToThousand(numbers);
 
-            return numberWord;
+            return this.numberWordStringBuilder.ToString();
         }
 
         private static List<long> SplitNumberInExponent(long number)
@@ -73,32 +74,29 @@
             return number.ToString().Select(c => long.Parse(c.ToString())).Reverse().ToList();
         }
 
-        private string StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
+        private void StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
         {
-            string numberWord = "";
 
             if (numbers.Count > 2 && numbers[2] > 0)
             {
-                numberWord += this.upToTwentyNumberWords[numbers[2]];
-                numberWord += this.tensNumberWords[10];
+                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[2]]);
+                this.numberWordStringBuilder.Append(this.tensNumberWords[10]);
             }
 
             if (numbers.Count > 1 && numbers[1] > 1)
             {
-                numberWord += this.tensNumberWords[numbers[1]];
+                this.numberWordStringBuilder.Append(this.tensNumberWords[numbers[1]]);
             }
             else if (numbers.Count > 1 && numbers[1] > 0)
             {
-                numberWord += this.upToTwentyNumberWords[10 + numbers[0]];
-                return numberWord;
+                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[10 + numbers[0]]);
+                return;
             }
 
             if (numbers.Count > 0 && numbers[0] > 0)
             {
-                numberWord += this.upToTwentyNumberWords[numbers[0]];
+                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[0]]);
             }
-
-            return numberWord;
         }
     }
 }
