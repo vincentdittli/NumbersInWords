@@ -15,7 +15,8 @@
             {6, "Sixty"},
             {7, "Seventy"},
             {8, "Eighty"},
-            {9, "Ninety"}
+            {9, "Ninety"},
+            {10, "Hundred"},
         };
 
         private readonly Dictionary<long, string> upToTwentyNumberWords = new Dictionary<long, string>()
@@ -41,7 +42,12 @@
             {19, "Nineteen"},
         };
 
-        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>() {{3, "Thousand"}, {6, "Million"},};
+        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>
+        {
+            {3, "Thousand"}, 
+            {6, "Million"},
+            {9, "Billion"},
+        };
 
         public string Convert(long number)
         {
@@ -64,17 +70,7 @@
 
         private static List<long> SplitNumberInExponent(long number)
         {
-            List<long> numbers = new List<long>();
-
-            int exponent = 1;
-
-            for (int i = 0; i < number.ToString().Length; i++)
-            {
-                numbers.Add(number / exponent % 10);
-                exponent *= 10;
-            }
-
-            return numbers;
+            return number.ToString().Select(c => long.Parse(c.ToString())).Reverse().ToList();
         }
 
         private string StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
@@ -84,7 +80,7 @@
             if (numbers.Count > 2 && numbers[2] > 0)
             {
                 numberWord += this.upToTwentyNumberWords[numbers[2]];
-                numberWord += "Hundred";
+                numberWord += this.tensNumberWords[10];
             }
 
             if (numbers.Count > 1 && numbers[1] > 1)

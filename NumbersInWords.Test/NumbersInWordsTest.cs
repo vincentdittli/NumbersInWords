@@ -52,7 +52,8 @@ namespace NumbersInWords.Test
         [InlineData(214565, "TwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(1214565, "OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(231214565, "TwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
-        public void ShouldReturnCorrectString(Int64 input, string expected)
+        [InlineData(964231214565, "NineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        public void ShouldReturnCorrectString(long input, string expected)
         {
             // Arrange
             NumbersInWords testee = new NumbersInWords();
@@ -62,6 +63,19 @@ namespace NumbersInWords.Test
 
             // Assert
             result.Should().Be(expected);
+
+        }
+        [Fact]
+        public void Test()
+        {
+            // Arrange
+            NumbersInWords testee = new NumbersInWords();
+
+            // Act
+            string result = testee.Convert(964231214565);
+
+            // Assert
+            result.Should().Be("NineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive");
 
         }
     }
