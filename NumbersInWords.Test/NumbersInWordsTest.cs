@@ -63,7 +63,5 @@ namespace NumbersInWords.Test
             result.Should().Be(expected);
 
         }
-
-        
     }
 }
