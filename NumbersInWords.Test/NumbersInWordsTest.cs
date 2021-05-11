@@ -1,5 +1,6 @@
 namespace NumbersInWords.Test
 {
+    using System;
     using FluentAssertions;
     using Xunit;
 
@@ -51,7 +52,7 @@ namespace NumbersInWords.Test
         [InlineData(214565, "TwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(1214565, "OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(231214565, "TwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
-        public void ShouldReturnCorrectString(int input, string expected)
+        public void ShouldReturnCorrectString(Int64 input, string expected)
         {
             // Arrange
             NumbersInWords testee = new NumbersInWords();

@@ -1,11 +1,12 @@
 ﻿namespace NumbersInWords
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class NumbersInWords
     {
-        private readonly Dictionary<int, string> tensNumberWords = new Dictionary<int, string>()
+        private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>()
         {
             {2, "Twenty"},
             {3, "Thirty"},
@@ -17,7 +18,7 @@
             {9, "Ninety"}
         };
 
-        private readonly Dictionary<int, string> upToTwentyNumberWords = new Dictionary<int, string>()
+        private readonly Dictionary<long, string> upToTwentyNumberWords = new Dictionary<long, string>()
         {
             {1, "One"},
             {2, "Two"},
@@ -42,11 +43,11 @@
 
         private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>() {{3, "Thousand"}, {6, "Million"},};
 
-        public string Convert(int number)
+        public string Convert(long number)
         {
             string numberWord = "";
 
-            List<int> numbers = SplitNumberInExponent(number);
+            List<long> numbers = SplitNumberInExponent(number);
 
             foreach (KeyValuePair<int, string> powerOfThreeNumberWord in this.powerOfThreeNumberWords.Reverse())
             {
@@ -61,9 +62,9 @@
             return numberWord;
         }
 
-        private static List<int> SplitNumberInExponent(int number)
+        private static List<long> SplitNumberInExponent(long number)
         {
-            List<int> numbers = new List<int>();
+            List<long> numbers = new List<long>();
 
             int exponent = 1;
 
@@ -76,7 +77,7 @@
             return numbers;
         }
 
-        private string StringifyNumbersUpToThousand(IReadOnlyList<int> numbers)
+        private string StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
         {
             string numberWord = "";
 
