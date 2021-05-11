@@ -52,6 +52,7 @@ namespace NumbersInWords.Test
         [InlineData(1214565, "OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(231214565, "TwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         [InlineData(964231214565, "NineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(687964231214565, "SixHundredEightySevenTrillionNineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         public void ShouldReturnCorrectString(long input, string expected)
         {
             // Arrange

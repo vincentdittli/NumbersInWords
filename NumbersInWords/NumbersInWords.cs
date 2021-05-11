@@ -50,6 +50,7 @@
             {3, "Thousand"}, 
             {6, "Million"},
             {9, "Billion"},
+            {12, "Trillion"},
         };
 
         public string Convert(long number)
