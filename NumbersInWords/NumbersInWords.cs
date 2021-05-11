@@ -1,7 +1,10 @@
 ﻿namespace NumbersInWords
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
 
     public class NumbersInWords
     {
@@ -14,7 +17,8 @@
             {6, "Sixty"},
             {7, "Seventy"},
             {8, "Eighty"},
-            {9, "Ninety"}
+            {9, "Ninety"},
+            {10, "Hundred"}
         };
 
         private readonly Dictionary<int, string> upToTwentyNumberWords = new Dictionary<int, string>()
@@ -40,7 +44,11 @@
             {19, "Nineteen"},
         };
 
-        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>() {{3, "Thousand"}, {6, "Million"},};
+        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string> 
+        {
+            {3, "Thousand"}, 
+            {6, "Million"}
+        };
 
         public string Convert(int number)
         {
@@ -59,6 +67,43 @@
             numberWord += this.StringifyNumbersUpToThousand(numbers);
 
             return numberWord;
+        }
+
+        private static List<int> SplitNumberInExponent2(int number)
+        {
+            string s = number.ToString();
+            int[] value = new int[s.Length];
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                value[i] = (s[i] - 48);
+            }
+
+            return new List<int>(value);
+        }
+
+        public string SpeedTest()
+        {
+            Stopwatch sw = new Stopwatch();
+            string result = "";
+
+            sw.Restart();
+            for (int i = 0; i < 1000000; i++)
+            {
+                SplitNumberInExponent(10000002);
+            }
+            sw.Stop();
+            result += $"SplitNumberInExponent {sw.ElapsedMilliseconds} ms\r\n";
+
+            sw.Restart();
+            for (int i = 0; i < 1000000; i++)
+            {
+                SplitNumberInExponent2(10000002);
+            }
+            sw.Stop();
+            result += $"SplitNumberInExponent2 {sw.ElapsedMilliseconds} ms\r\n";
+
+            return result;
         }
 
         private static List<int> SplitNumberInExponent(int number)
@@ -83,7 +128,7 @@
             if (numbers.Count > 2 && numbers[2] > 0)
             {
                 numberWord += this.upToTwentyNumberWords[numbers[2]];
-                numberWord += "Hundred";
+                numberWord += this.tensNumberWords[10];
             }
 
             if (numbers.Count > 1 && numbers[1] > 1)

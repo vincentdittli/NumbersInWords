@@ -1,7 +1,9 @@
 namespace NumbersInWords.Test
 {
+    using System.Collections.Generic;
     using FluentAssertions;
     using Xunit;
+    using Xunit.Abstractions;
 
     public class NumbersInWordsTest
     {
@@ -63,5 +65,25 @@ namespace NumbersInWords.Test
             result.Should().Be(expected);
 
         }
+
+        private readonly ITestOutputHelper output;
+
+        public NumbersInWordsTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
+        [Fact]
+        public void MethodName()
+        {
+            List<int> daList;
+
+            NumbersInWords testee = new NumbersInWords();
+
+            string speedTest = testee.SpeedTest();
+            
+            this.output.WriteLine(speedTest);
+        }
+        
     }
 }
