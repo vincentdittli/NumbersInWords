@@ -1,6 +1,5 @@
 ﻿namespace NumbersInWords
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -39,37 +38,45 @@
             {17,"Seventeen"},
             {18,"Eighteen"},
             {19,"Nineteen"},
+        }; 
+
+        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>()
+        {
+            {3,"Thousand"},
+            {6,"Million"},
         };
 
         public string Convert(int number)
         {
-
             string numberWord = "";
 
-            List<int> numbers = new List<int>();
-            int exponent = 1;
+            List<int> numbers = SplitNumberInExponent(number);
 
+            foreach (KeyValuePair<int, string> powerOfThreeNumberWord in this.powerOfThreeNumberWords.Reverse())
+            {
+                if (numbers.Count <= powerOfThreeNumberWord.Key) { continue; }
+
+                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList());
+                numberWord += powerOfThreeNumberWord.Value;
+            }
+
+            numberWord += this.StringifyNumbersUpToThousand(numbers);
+            
+            return numberWord;
+        }
+
+        private static List<int> SplitNumberInExponent(int number)
+        {
+            List<int> numbers = new List<int>();
+
+            int exponent = 1;
             for (int i = 0; i < number.ToString().Length; i++)
             {
                 numbers.Add(number / exponent % 10);
                 exponent *= 10;
             }
 
-            if (numbers.Count > 6)
-            {
-                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(6).ToList());
-                numberWord += "Million";
-            }
-
-            if (numbers.Count > 3)
-            {
-                numberWord += this.StringifyNumbersUpToThousand(numbers.Skip(3).ToList());
-                numberWord += "Thousand";
-            }
-
-            numberWord += this.StringifyNumbersUpToThousand(numbers);
-            
-            return numberWord;
+            return numbers;
         }
 
         private string StringifyNumbersUpToThousand(IReadOnlyList<int> numbers)
