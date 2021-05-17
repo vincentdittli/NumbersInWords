@@ -1,11 +1,10 @@
 ﻿namespace NumbersInWords
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class NumbersInWords
+    public class NumberWordConverter
     {
         private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
 
@@ -70,6 +69,11 @@
             return this.numberWordStringBuilder.ToString();
         }
 
+        public long Convert(string numberWord)
+        {
+            return this.upToTwentyNumberWords.First(n=> n.Value == numberWord).Key;
+        }
+
         private static List<long> SplitNumberInExponent(long number)
         {
             return number.ToString().Select(c => long.Parse(c.ToString())).Reverse().ToList();
@@ -77,7 +81,6 @@
 
         private void StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
         {
-
             if (numbers.Count > 2 && numbers[2] > 0)
             {
                 this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[2]]);
