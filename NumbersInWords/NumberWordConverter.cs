@@ -71,7 +71,15 @@
 
         public long Convert(string numberWord)
         {
-            return this.upToTwentyNumberWords.First(n=> n.Value == numberWord).Key;
+            Dictionary<long, string> numberWordsUpToThousand = new Dictionary<long, string>();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                this.numberWordStringBuilder.Clear();
+                string tempNumberWord = this.Convert(i);
+                numberWordsUpToThousand.Add(i,tempNumberWord);
+            }
+            return numberWordsUpToThousand.First(n => n.Value == numberWord).Key;
         }
 
         private static List<long> SplitNumberInExponent(long number)

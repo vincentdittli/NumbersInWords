@@ -85,6 +85,21 @@ namespace NumbersInWords.Test
         [InlineData(17, "Seventeen")]
         [InlineData(18, "Eighteen")]
         [InlineData(19, "Nineteen")]
+        [InlineData(20, "Twenty")]
+        [InlineData(21, "TwentyOne")]
+        [InlineData(29, "TwentyNine")]
+        [InlineData(30, "Thirty")]
+        [InlineData(31, "ThirtyOne")]
+        [InlineData(40, "Forty")]
+        [InlineData(42, "FortyTwo")]
+        [InlineData(50, "Fifty")]
+        [InlineData(53, "FiftyThree")]
+        [InlineData(64, "SixtyFour")]
+        [InlineData(99, "NinetyNine")]
+        [InlineData(100, "OneHundred")]
+        [InlineData(120, "OneHundredTwenty")]
+        [InlineData(745, "SevenHundredFortyFive")]
+        [InlineData(999, "NineHundredNinetyNine")]
         public void ShouldReturnCorrectLong(long expected, string input)
         {
             // Arrange
