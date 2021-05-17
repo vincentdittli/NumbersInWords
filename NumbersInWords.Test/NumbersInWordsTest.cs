@@ -65,6 +65,7 @@ namespace NumbersInWords.Test
             result.Should().Be(expected);
 
         }
+
         [Theory]
         [InlineData(1, "One")]
         [InlineData(2, "Two")]
@@ -100,6 +101,19 @@ namespace NumbersInWords.Test
         [InlineData(120, "OneHundredTwenty")]
         [InlineData(745, "SevenHundredFortyFive")]
         [InlineData(999, "NineHundredNinetyNine")]
+        [InlineData(1000, "OneThousand")]
+        [InlineData(1099, "OneThousandNinetyNine")]
+        [InlineData(9999, "NineThousandNineHundredNinetyNine")]
+        [InlineData(10000, "TenThousand")]
+        [InlineData(14000, "FourteenThousand")]
+        [InlineData(16521, "SixteenThousandFiveHundredTwentyOne")]
+        [InlineData(20000, "TwentyThousand")]
+        [InlineData(100000, "OneHundredThousand")]
+        [InlineData(214565, "TwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(1214565, "OneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(231214565, "TwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(964231214565, "NineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
+        [InlineData(687964231214565,"SixHundredEightySevenTrillionNineHundredSixtyFourBillionTwoHundredThirtyOneMillionTwoHundredFourteenThousandFiveHundredSixtyFive")]
         public void ShouldReturnCorrectLong(long expected, string input)
         {
             // Arrange

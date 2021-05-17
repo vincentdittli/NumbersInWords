@@ -1,5 +1,6 @@
 ﻿namespace NumbersInWords
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -71,15 +72,33 @@
 
         public long Convert(string numberWord)
         {
+            Dictionary<long, string> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
+
+            long number = 0;
+
+            string[] substrings = numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
+            long multiplicand = 1;
+            foreach (string substring in substrings.Reverse()) 
+            {
+                number += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
+                multiplicand *= 1000;
+            }
+
+            return number;
+        }
+
+        private Dictionary<long, string> GenerateNumberWordsUpToThousand()
+        {
             Dictionary<long, string> numberWordsUpToThousand = new Dictionary<long, string>();
 
             for (int i = 0; i < 1000; i++)
             {
                 this.numberWordStringBuilder.Clear();
                 string tempNumberWord = this.Convert(i);
-                numberWordsUpToThousand.Add(i,tempNumberWord);
+                numberWordsUpToThousand.Add(i, tempNumberWord);
             }
-            return numberWordsUpToThousand.First(n => n.Value == numberWord).Key;
+
+            return numberWordsUpToThousand;
         }
 
         private static List<long> SplitNumberInExponent(long number)
