@@ -8,7 +8,7 @@
     public class NumberWordConverter
     {
         private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
-        private long number = 0;
+        private long numberBuilder;
 
         private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>()
         {
@@ -74,28 +74,11 @@
         public long Convert(string numberWord)
         {
 
-            IEnumerable<string> substrings = this.SplitNumberInPowerOfThree(numberWord);
+            IEnumerable<string> substrings = this.SplitNumberWordInPowerOfThree(numberWord);
 
             this.ConvertStringsInNumber(substrings);
 
-            return this.number;
-        }
-
-        private void ConvertStringsInNumber(IEnumerable<string> substrings)
-        {
-            Dictionary<long, string> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
-
-            long multiplicand = 1;
-            foreach (string substring in substrings.Reverse())
-            {
-                this.number += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
-                multiplicand *= 1000;
-            }
-        }
-
-        private IEnumerable<string> SplitNumberInPowerOfThree(string numberWord)
-        {
-            return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
+            return this.numberBuilder;
         }
 
         private Dictionary<long, string> GenerateNumberWordsUpToThousand()
@@ -112,9 +95,16 @@
             return numberWordsUpToThousand;
         }
 
-        private static List<long> SplitNumberInExponent(long number)
+        private void ConvertStringsInNumber(IEnumerable<string> substrings)
         {
-            return number.ToString().Select(c => long.Parse(c.ToString())).Reverse().ToList();
+            Dictionary<long, string> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
+
+            long multiplicand = 1;
+            foreach (string substring in substrings.Reverse())
+            {
+                this.numberBuilder += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
+                multiplicand *= 1000;
+            }
         }
 
         private void StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
@@ -139,6 +129,16 @@
             {
                 this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[0]]);
             }
+        }
+
+        private IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
+        {
+            return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
+        }
+
+        private static List<long> SplitNumberInExponent(long number)
+        {
+            return number.ToString().Select(c => long.Parse(c.ToString())).Reverse().ToList();
         }
     }
 }
