@@ -8,9 +8,13 @@
     public class NumberWordConverter
     {
         private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
-        private long numberBuilder;
 
-        private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>()
+        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>
+        {
+            {3, "Thousand"}, {6, "Million"}, {9, "Billion"}, {12, "Trillion"}
+        };
+
+        private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>
         {
             {2, "Twenty"},
             {3, "Thirty"},
@@ -20,10 +24,10 @@
             {7, "Seventy"},
             {8, "Eighty"},
             {9, "Ninety"},
-            {10, "Hundred"},
+            {10, "Hundred"}
         };
 
-        private readonly Dictionary<long, string> upToTwentyNumberWords = new Dictionary<long, string>()
+        private readonly Dictionary<long, string> upToTwentyNumberWords = new Dictionary<long, string>
         {
             {1, "One"},
             {2, "Two"},
@@ -43,15 +47,7 @@
             {16, "Sixteen"},
             {17, "Seventeen"},
             {18, "Eighteen"},
-            {19, "Nineteen"},
-        };
-
-        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>
-        {
-            {3, "Thousand"}, 
-            {6, "Million"},
-            {9, "Billion"},
-            {12, "Trillion"},
+            {19, "Nineteen"}
         };
 
         public string Convert(long number)
@@ -73,38 +69,35 @@
 
         public long Convert(string numberWord)
         {
-
             IEnumerable<string> substrings = this.SplitNumberWordInPowerOfThree(numberWord);
 
-            this.ConvertStringsInNumber(substrings);
+            Dictionary<string, long> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
 
-            return this.numberBuilder;
+            long number = 0;
+
+            long multiplicand = 1;
+
+            foreach (string substring in substrings.Reverse())
+            {
+                number += numberWordsUpToThousand[substring] * multiplicand;
+                multiplicand *= 1000;
+            }
+
+            return number;
         }
 
-        private Dictionary<long, string> GenerateNumberWordsUpToThousand()
+        private Dictionary<string, long> GenerateNumberWordsUpToThousand()
         {
-            Dictionary<long, string> numberWordsUpToThousand = new Dictionary<long, string>();
+            Dictionary<string, long> numberWordsUpToThousand = new Dictionary<string, long>();
 
             for (int i = 0; i < 1000; i++)
             {
                 this.numberWordStringBuilder.Clear();
                 string tempNumberWord = this.Convert(i);
-                numberWordsUpToThousand.Add(i, tempNumberWord);
+                numberWordsUpToThousand.Add(tempNumberWord, i);
             }
 
             return numberWordsUpToThousand;
-        }
-
-        private void ConvertStringsInNumber(IEnumerable<string> substrings)
-        {
-            Dictionary<long, string> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
-
-            long multiplicand = 1;
-            foreach (string substring in substrings.Reverse())
-            {
-                this.numberBuilder += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
-                multiplicand *= 1000;
-            }
         }
 
         private void StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
