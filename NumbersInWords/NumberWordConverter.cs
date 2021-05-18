@@ -11,7 +11,11 @@
 
         private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>
         {
-            {3, "Thousand"}, {6, "Million"}, {9, "Billion"}, {12, "Trillion"}
+            {0, ""},
+            {3, "Thousand"},
+            {6, "Million"},
+            {9, "Billion"},
+            {12, "Trillion"}
         };
 
         private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>
@@ -61,8 +65,6 @@
                 this.StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList());
                 this.numberWordStringBuilder.Append(powerOfThreeNumberWord.Value);
             }
-
-            this.StringifyNumbersUpToThousand(numbers);
 
             return this.numberWordStringBuilder.ToString();
         }
