@@ -71,21 +71,11 @@
 
         public long Convert(string numberWord)
         {
-            IEnumerable<string> substrings = this.SplitNumberWordInPowerOfThree(numberWord);
+            string[] substrings = this.SplitNumberWordInPowerOfThree(numberWord);
 
             Dictionary<string, long> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
 
-            long number = 0;
-
-            long multiplicand = 1;
-
-            foreach (string substring in substrings.Reverse())
-            {
-                number += numberWordsUpToThousand[substring] * multiplicand;
-                multiplicand *= 1000;
-            }
-
-            return number;
+            return substrings.Reverse().Select((substring, i) => numberWordsUpToThousand[substring] * System.Convert.ToInt64(Math.Pow(10, i * 3))).Sum();
         }
 
         private Dictionary<string, long> GenerateNumberWordsUpToThousand()
@@ -126,7 +116,7 @@
             }
         }
 
-        private IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
+        private string[] SplitNumberWordInPowerOfThree(string numberWord)
         {
             return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
         }
