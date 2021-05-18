@@ -8,6 +8,7 @@
     public class NumberWordConverter
     {
         private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
+        private long number = 0;
 
         private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>()
         {
@@ -72,19 +73,29 @@
 
         public long Convert(string numberWord)
         {
+
+            IEnumerable<string> substrings = this.SplitNumberInPowerOfThree(numberWord);
+
+            this.ConvertStringsInNumber(substrings);
+
+            return this.number;
+        }
+
+        private void ConvertStringsInNumber(IEnumerable<string> substrings)
+        {
             Dictionary<long, string> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
 
-            long number = 0;
-
-            string[] substrings = numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
             long multiplicand = 1;
-            foreach (string substring in substrings.Reverse()) 
+            foreach (string substring in substrings.Reverse())
             {
-                number += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
+                this.number += numberWordsUpToThousand.First(n => n.Value == substring).Key * multiplicand;
                 multiplicand *= 1000;
             }
+        }
 
-            return number;
+        private IEnumerable<string> SplitNumberInPowerOfThree(string numberWord)
+        {
+            return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
         }
 
         private Dictionary<long, string> GenerateNumberWordsUpToThousand()
