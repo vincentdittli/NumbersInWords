@@ -9,7 +9,7 @@
     {
         private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
 
-        private readonly Dictionary<int, string> powerOfThreeNumberWords = new Dictionary<int, string>
+        private static readonly IReadOnlyDictionary<int, string> PowerOfThreeNumberWords = new Dictionary<int, string>
         {
             {0, ""},
             {3, "Thousand"},
@@ -18,7 +18,7 @@
             {12, "Trillion"}
         };
 
-        private readonly Dictionary<long, string> tensNumberWords = new Dictionary<long, string>
+        private static readonly IReadOnlyDictionary<long, string> TensNumberWords = new Dictionary<long, string>
         {
             {2, "Twenty"},
             {3, "Thirty"},
@@ -31,7 +31,7 @@
             {10, "Hundred"}
         };
 
-        private readonly Dictionary<long, string> upToTwentyNumberWords = new Dictionary<long, string>
+        private static readonly IReadOnlyDictionary<long, string> UpToTwentyNumberWords = new Dictionary<long, string>
         {
             {1, "One"},
             {2, "Two"},
@@ -58,7 +58,7 @@
         {
             List<long> numbers = SplitNumberInExponent(number);
 
-            foreach (KeyValuePair<int, string> powerOfThreeNumberWord in this.powerOfThreeNumberWords.Reverse())
+            foreach (KeyValuePair<int, string> powerOfThreeNumberWord in PowerOfThreeNumberWords.Reverse())
             {
                 if (numbers.Count <= powerOfThreeNumberWord.Key) { continue; }
 
@@ -71,7 +71,7 @@
 
         public long Convert(string numberWord)
         {
-            IEnumerable<string> numberWordsInPowerOfThree = this.SplitNumberWordInPowerOfThree(numberWord);
+            IEnumerable<string> numberWordsInPowerOfThree = SplitNumberWordInPowerOfThree(numberWord);
 
             Dictionary<string, long> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
 
@@ -100,32 +100,32 @@
         {
             if (numbers.Count > 2 && numbers[2] > 0)
             {
-                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[2]]);
-                this.numberWordStringBuilder.Append(this.tensNumberWords[10]);
+                this.numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[2]]);
+                this.numberWordStringBuilder.Append(TensNumberWords[10]);
             }
 
             if (numbers.Count > 1)
             {
                 if (numbers[1] > 1)
                 {
-                    this.numberWordStringBuilder.Append(this.tensNumberWords[numbers[1]]);
+                    this.numberWordStringBuilder.Append(TensNumberWords[numbers[1]]);
                 }
                 else if (numbers[1] > 0)
                 {
-                    this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[10 + numbers[0]]);
+                    this.numberWordStringBuilder.Append(UpToTwentyNumberWords[10 + numbers[0]]);
                     return;
                 } 
             }
 
             if (numbers.Count > 0 && numbers[0] > 0)
             {
-                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[numbers[0]]);
+                this.numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[0]]);
             }
         }
 
-        private IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
+        private static IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
         {
-            return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
+            return numberWord.Split(PowerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
         }
 
         private static List<long> SplitNumberInExponent(long number)
