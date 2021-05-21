@@ -71,7 +71,7 @@
 
         public long Convert(string numberWord)
         {
-            string[] numberWordsInPowerOfThree = this.SplitNumberWordInPowerOfThree(numberWord);
+            IEnumerable<string> numberWordsInPowerOfThree = this.SplitNumberWordInPowerOfThree(numberWord);
 
             Dictionary<string, long> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
 
@@ -120,7 +120,7 @@
             }
         }
 
-        private string[] SplitNumberWordInPowerOfThree(string numberWord)
+        private IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
         {
             return numberWord.Split(this.powerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
         }
