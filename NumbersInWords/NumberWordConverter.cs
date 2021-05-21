@@ -104,14 +104,17 @@
                 this.numberWordStringBuilder.Append(this.tensNumberWords[10]);
             }
 
-            if (numbers.Count > 1 && numbers[1] > 1)
+            if (numbers.Count > 1)
             {
-                this.numberWordStringBuilder.Append(this.tensNumberWords[numbers[1]]);
-            }
-            else if (numbers.Count > 1 && numbers[1] > 0)
-            {
-                this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[10 + numbers[0]]);
-                return;
+                if (numbers[1] > 1)
+                {
+                    this.numberWordStringBuilder.Append(this.tensNumberWords[numbers[1]]);
+                }
+                else if (numbers[1] > 0)
+                {
+                    this.numberWordStringBuilder.Append(this.upToTwentyNumberWords[10 + numbers[0]]);
+                    return;
+                } 
             }
 
             if (numbers.Count > 0 && numbers[0] > 0)
