@@ -7,8 +7,6 @@
 
     public class NumberWordConverter
     {
-        private readonly StringBuilder numberWordStringBuilder = new StringBuilder();
-
         private static readonly IReadOnlyDictionary<int, string> PowerOfThreeNumberWords = new Dictionary<int, string>
         {
             {0, ""},
@@ -54,76 +52,91 @@
             {19, "Nineteen"}
         };
 
+        private static IReadOnlyDictionary<string, long> NumberWordsUpToThousand { get; }
+
+        static NumberWordConverter()
+        {
+            NumberWordsUpToThousand = GenerateNumberWordsUpToThousand();
+        }
+
         public string Convert(long number)
         {
+            return ConvertInternal(number);
+        }
+
+        public long Convert(string numberWord)
+        {
+            string[] numberWordPowerOfThreeArray = SplitNumberWordInPowerOfThree(numberWord);
+            
+            return numberWordPowerOfThreeArray
+                .Reverse()
+                .Select((numberWordInPowerOfThree, i) 
+                    => NumberWordsUpToThousand[numberWordInPowerOfThree] * System.Convert.ToInt64(Math.Pow(10, i * 3)))
+                .Sum();
+        }
+
+        private static string ConvertInternal(long number)
+        {
+            StringBuilder numberWordStringBuilder = new StringBuilder();
+
             List<long> numbers = SplitNumberInExponent(number);
 
             foreach (KeyValuePair<int, string> powerOfThreeNumberWord in PowerOfThreeNumberWords.Reverse())
             {
                 if (numbers.Count <= powerOfThreeNumberWord.Key) { continue; }
 
-                this.StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList());
-                this.numberWordStringBuilder.Append(powerOfThreeNumberWord.Value);
+                numberWordStringBuilder.Append(StringifyNumbersUpToThousand(numbers.Skip(powerOfThreeNumberWord.Key).ToList()));
+                numberWordStringBuilder.Append(powerOfThreeNumberWord.Value);
             }
 
-            return this.numberWordStringBuilder.ToString();
+            return numberWordStringBuilder.ToString();
         }
 
-        public long Convert(string numberWord)
-        {
-            IEnumerable<string> numberWordsInPowerOfThree = SplitNumberWordInPowerOfThree(numberWord);
-
-            Dictionary<string, long> numberWordsUpToThousand = this.GenerateNumberWordsUpToThousand();
-
-            return numberWordsInPowerOfThree
-                .Reverse()
-                .Select((numberWordInPowerOfThree, i) 
-                    => numberWordsUpToThousand[numberWordInPowerOfThree] * System.Convert.ToInt64(Math.Pow(10, i * 3)))
-                .Sum();
-        }
-
-        private Dictionary<string, long> GenerateNumberWordsUpToThousand()
+        private static Dictionary<string, long> GenerateNumberWordsUpToThousand()
         {
             Dictionary<string, long> numberWordsUpToThousand = new Dictionary<string, long>();
 
             for (int i = 0; i < 1000; i++)
             {
-                this.numberWordStringBuilder.Clear();
-                string tempNumberWord = this.Convert(i);
+                string tempNumberWord = ConvertInternal(i);
                 numberWordsUpToThousand.Add(tempNumberWord, i);
             }
 
             return numberWordsUpToThousand;
         }
 
-        private void StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
+        private static string StringifyNumbersUpToThousand(IReadOnlyList<long> numbers)
         {
+            StringBuilder numberWordStringBuilder = new StringBuilder();
+
             if (numbers.Count > 2 && numbers[2] > 0)
             {
-                this.numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[2]]);
-                this.numberWordStringBuilder.Append(TensNumberWords[10]);
+                numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[2]]);
+                numberWordStringBuilder.Append(TensNumberWords[10]);
             }
 
             if (numbers.Count > 1)
             {
                 if (numbers[1] > 1)
                 {
-                    this.numberWordStringBuilder.Append(TensNumberWords[numbers[1]]);
+                    numberWordStringBuilder.Append(TensNumberWords[numbers[1]]);
                 }
                 else if (numbers[1] > 0)
                 {
-                    this.numberWordStringBuilder.Append(UpToTwentyNumberWords[10 + numbers[0]]);
-                    return;
+                    numberWordStringBuilder.Append(UpToTwentyNumberWords[10 + numbers[0]]);
+                    return numberWordStringBuilder.ToString();
                 } 
             }
 
             if (numbers.Count > 0 && numbers[0] > 0)
             {
-                this.numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[0]]);
+                numberWordStringBuilder.Append(UpToTwentyNumberWords[numbers[0]]);
             }
+
+            return numberWordStringBuilder.ToString();
         }
 
-        private static IEnumerable<string> SplitNumberWordInPowerOfThree(string numberWord)
+        private static string[] SplitNumberWordInPowerOfThree(string numberWord)
         {
             return numberWord.Split(PowerOfThreeNumberWords.Values.ToArray(), StringSplitOptions.None);
         }
